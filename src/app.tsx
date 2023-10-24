@@ -1,9 +1,12 @@
-import Login from "./components/Login";
+import { useState } from "react";
+import Routes from "./routes";
 
 const App = (): JSX.Element => {
+  const [logged, setLogged] = useState<boolean>(false)
+
   return (
     <>
-      <Login/>
+      <Routes logged={logged} setLogged={setLogged} />
     </>
   );
 };
