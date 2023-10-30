@@ -68,7 +68,7 @@ const Login = ({ setLogged }: IProps): JSX.Element => {
         justifyContent={"center"}
         height={"35%"}
         padding={"2rem"}
-        boxShadow={"1rem 1rem 4rem 0"}
+        boxShadow={"1rem 1rem 2.5rem 0"}
         backgroundColor={"white"}
         zIndex={"2"}
       >
@@ -122,7 +122,7 @@ const Login = ({ setLogged }: IProps): JSX.Element => {
 
         <Text mt={2}>
           Ainda não tem uma conta?{" "}
-          <Link color="teal.500" href="#">
+          <Link color="teal.500" href="#register">
             Criar novo usuário
           </Link>
         </Text>
