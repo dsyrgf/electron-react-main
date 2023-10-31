@@ -97,31 +97,52 @@ const NewUser = () => {
           height={"1rem"}
           padding={"0.5rem"}
           borderRadius={"0.5rem"}
-          onChange={(e)=>setConfirmPassword(e.target.value)}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         ></Input>
       </FormControl>
 
       <ImageUpload images={picture} setImages={setPicture} maxImages={1} />
 
-      <Button
-        padding={"1.5rem 2.3rem"}
-        borderRadius={"1.3rem"}
-        fontSize={"1.3rem"}
-        fontWeight={"600"}
-        backgroundColor={"#00a2ff"}
-        color={"white"}
-        border={"none"}
-        cursor={"pointer"}
-        _hover={{
-          color: "#00a2ff",
-          border: "1px solid",
-          background: "white",
-        }}
-        marginBottom={"2rem"}
-        onClick={sendDatos}
-      >
-        Enviar
-      </Button>
+      <Flex gap={"4rem"}>
+        <Button
+          padding={"1.5rem 3.3rem"}
+          borderRadius={"1.3rem"}
+          fontSize={"1.3rem"}
+          fontWeight={"600"}
+          backgroundColor={"#00a2ff"}
+          color={"white"}
+          border={"none"}
+          cursor={"pointer"}
+          _hover={{
+            color: "#00a2ff",
+            border: "1px solid",
+            background: "white",
+          }}
+          marginBottom={"2rem"}
+          onClick={() => navigate("/")}
+        >
+          Enviar
+        </Button>
+        <Button
+          padding={"1.5rem 2.3rem"}
+          borderRadius={"1.3rem"}
+          fontSize={"1.3rem"}
+          fontWeight={"600"}
+          backgroundColor={"#ff0038"}
+          color={"white"}
+          border={"none"}
+          cursor={"pointer"}
+          _hover={{
+            color: "#ff0038",
+            border: "1px solid",
+            background: "white",
+          }}
+          marginBottom={"2rem"}
+          onClick={() => navigate("/")}
+        >
+          cancelar
+        </Button>
+      </Flex>
     </Flex>
   );
 };
