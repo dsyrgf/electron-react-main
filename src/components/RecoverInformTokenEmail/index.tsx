@@ -13,40 +13,33 @@ import Api from "../../Api";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
-  setBooleanInformEmail: React.Dispatch<React.SetStateAction<boolean>>;
-  setBooleanInformTokenEmail: React.Dispatch<React.SetStateAction<boolean>>;
+  setBooleanTokenEmail: React.Dispatch<React.SetStateAction<boolean>>;
   setBooleanInformNewPassword: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RecoverPassword = ({
-  setBooleanInformEmail,
-  setBooleanInformTokenEmail,
+const RecoverInformTokenEmail = ({
+  setBooleanTokenEmail,
   setBooleanInformNewPassword,
 }: IProps): JSX.Element => {
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [tokenEmail, setTokenEmail] = useState<string>("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false)
 
   const submit = async () => {
     try {
-      const user = localStorage.getItem("u");
-      var userParse = JSON.parse(user)
-      const headers = {
-        'Authorization': `Bearer ${userParse.access_token}`
-      }
+      const email = localStorage.getItem("e");
       setLoading(true)
-      await Api.patch(`user/${userParse.id}`, { password: newPassword }, {headers} );
+      const response = await Api.post("auth/login-recover", {
+        email,
+        token: +tokenEmail,
+      });
       setLoading(false)
-      navigate("/");
-      alert("Senha Alterada Com Sucesso!");
-      setBooleanInformEmail(true);
-      setBooleanInformTokenEmail(false);
-      setBooleanInformNewPassword(false);
+      localStorage.setItem("u", JSON.stringify(response.data));
+      setBooleanTokenEmail(false);
+      setBooleanInformNewPassword(true);
     } catch (error) {
       setLoading(false)
-      console.log(error)
-      alert("Error ao mudar senha tente usar uma senha mais forte.")
+      alert("Token invalido ou expirado");
     }
   };
 
@@ -72,7 +65,7 @@ const RecoverPassword = ({
         margin={"auto"}
         flexDirection={"column"}
         alignItems={"center"}
-        gap={"2rem"}
+        gap={"2.5rem"}
         borderRadius={"1rem"}
         width={"20%"}
         justifyContent={"center"}
@@ -83,32 +76,18 @@ const RecoverPassword = ({
         zIndex={"2"}
       >
         <Text fontSize="2rem" fontWeight="bold" mb={4}>
-          Nova Senha
+          Informe Token
         </Text>
         <FormControl>
-          <FormLabel>Senha:</FormLabel>
+          <FormLabel>Token:</FormLabel>
           <Input
-            type="password"
-            placeholder="Digite Sua Nova Senha"
+            type="text"
+            placeholder="Digite Token Enviado Por E-mail"
             padding={"0.6rem"}
             width={"20rem"}
             borderRadius={"0.5rem"}
             onChange={(e) => {
-              setNewPassword(e.target.value);
-            }}
-          />
-        </FormControl>
-
-        <FormControl mt={4}>
-          <FormLabel>Confirmação:</FormLabel>
-          <Input
-            type="password"
-            placeholder="Confirme Sua Nova Senha"
-            padding={"0.6rem"}
-            width={"20rem"}
-            borderRadius={"0.5rem"}
-            onChange={(e) => {
-              setConfirmNewPassword(e.target.value);
+              setTokenEmail(e.target.value);
             }}
           />
         </FormControl>
@@ -129,8 +108,8 @@ const RecoverPassword = ({
               background: "white",
             }}
             marginBottom={"2rem"}
-            isLoading={loading}
             onClick={submit}
+            isLoading={loading}
           >
             Enviar
           </Button>
@@ -160,4 +139,4 @@ const RecoverPassword = ({
   );
 };
 
-export default RecoverPassword;
+export default RecoverInformTokenEmail;

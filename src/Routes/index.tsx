@@ -1,9 +1,14 @@
-import { HashRouter, Navigate, Route, Routes as Switch } from "react-router-dom";
+import {
+  HashRouter,
+  Navigate,
+  Route,
+  Routes as Switch,
+} from "react-router-dom";
 import Login from "../components/Login";
 import Home from "../components/Home";
 import { useEffect } from "react";
 import NewUser from "../components/NewUser";
-import RecoverInformEmail from "../components/RecoverInformEmail";
+import Recover from "../pages/Recover";
 
 interface IProps {
   logged: boolean;
@@ -11,14 +16,20 @@ interface IProps {
 }
 
 const Routes = ({ logged, setLogged }: IProps): JSX.Element => {
-  useEffect(()=>{},[logged])
+  useEffect(() => {}, [logged]);
   return (
     <HashRouter>
       <Switch>
-        <Route path="/" element={logged ? <Navigate to={"/home"} /> : <Navigate to={"/login"}/>} />
-        <Route path="/login" element={<RecoverInformEmail/>} />
-        <Route path="/home" element={<Home setLogged={setLogged}/>} />
-        <Route path="/register" element={<NewUser/>} />
+        <Route
+          path="/"
+          element={
+            logged ? <Navigate to={"/home"} /> : <Navigate to={"/login"} />
+          }
+        />
+        <Route path="/login" element={<Login setLogged={setLogged} />} />
+        <Route path="/home" element={<Home setLogged={setLogged} />} />
+        <Route path="/register" element={<NewUser />} />
+        <Route path="/recover" element={<Recover />} />
       </Switch>
     </HashRouter>
   );

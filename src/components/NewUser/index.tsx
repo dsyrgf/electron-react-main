@@ -10,6 +10,7 @@ const NewUser = () => {
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [email, setEmail] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false)
 
   const navigate = useNavigate();
 
@@ -17,18 +18,20 @@ const NewUser = () => {
     try {
       if (password !== confirmPassword) throw Error("As senhas não são iguais");
       else {
+        setLoading(true)
         await Api.post("/user", {
           picture: picture[0],
           name,
           password,
           email,
         });
-
-        alert("Usuário cadastrado !");
+        setLoading(false)
+        alert("Usuário cadastrado com sucesso !");
         navigate("/");
       }
     } catch (error) {
-      alert("Error ao cadastrar usuário!" + error);
+      setLoading(false)
+      alert("Error ao cadastrar usuário! " + error.message);
     }
   };
 
@@ -103,9 +106,9 @@ const NewUser = () => {
 
       <ImageUpload images={picture} setImages={setPicture} maxImages={1} />
 
-      <Flex gap={"4rem"}>
+      <Flex gap={"10rem"}>
         <Button
-          padding={"1.5rem 3.3rem"}
+          padding={"1.5rem 3.2rem"}
           borderRadius={"1.3rem"}
           fontSize={"1.3rem"}
           fontWeight={"600"}
@@ -119,10 +122,12 @@ const NewUser = () => {
             background: "white",
           }}
           marginBottom={"2rem"}
-          onClick={() => navigate("/")}
+          onClick={sendDatos}
+          isLoading={loading}
         >
           Enviar
         </Button>
+
         <Button
           padding={"1.5rem 2.3rem"}
           borderRadius={"1.3rem"}
@@ -140,7 +145,7 @@ const NewUser = () => {
           marginBottom={"2rem"}
           onClick={() => navigate("/")}
         >
-          cancelar
+          Cancelar
         </Button>
       </Flex>
     </Flex>
